@@ -28,11 +28,11 @@ const Sidebar = () => {
       {/* Logo */}
       <div className="px-6 pt-8 pb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow flex-shrink-0">
-            <span className="text-xl">💸</span>
+          <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center shadow-glow flex-shrink-0">
+            <img src="/logo.png" alt="Smart Spend" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h1 className="text-lg font-display font-bold text-indigo-900 leading-tight">ExpenseTracker</h1>
+            <h1 className="text-lg font-display font-bold text-indigo-900 leading-tight">Smart Spend</h1>
             <p className="text-xs text-indigo-400">Pro</p>
           </div>
         </div>

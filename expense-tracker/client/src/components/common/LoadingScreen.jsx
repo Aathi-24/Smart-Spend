@@ -16,8 +16,8 @@ const LoadingScreen = () => {
           transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
           className="relative"
         >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow">
-            <span className="text-3xl">💸</span>
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center shadow-glow overflow-hidden">
+            <img src="/logo.png" alt="Smart Spend" className="w-12 h-12 object-contain" />
           </div>
           {/* Spinning ring */}
           <motion.div
@@ -37,7 +37,7 @@ const LoadingScreen = () => {
           transition={{ delay: 0.3 }}
           className="text-center"
         >
-          <h1 className="text-2xl font-display font-bold text-indigo-900">ExpenseTracker</h1>
+          <h1 className="text-2xl font-display font-bold text-indigo-900">Smart Spend</h1>
           <p className="text-sm text-indigo-400 mt-1 font-body">Loading your finances...</p>
         </motion.div>
 

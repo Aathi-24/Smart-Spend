@@ -1,11 +1,9 @@
-import React, { useState, Suspense } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, Zap, ChevronRight, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ParticleBackground from '../components/particles/ParticleBackground';
-
-const ThreeScene = React.lazy(() => import('../components/three/ThreeScene'));
 
 const DEFAULT_CREDENTIALS = [
   { name: 'Admin User', email: 'admin@expensetracker.com', password: 'Admin@123', role: 'admin', emoji: '👑' },
@@ -36,201 +34,143 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-mesh flex overflow-hidden">
-      {/* Particles */}
-      <ParticleBackground variant="dense" />
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.12),transparent_20%),#f8fafc] flex items-center justify-center px-4 py-10 relative overflow-hidden">
+      <ParticleBackground variant="default" />
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-cyan-50 opacity-90 pointer-events-none" />
+      <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-indigo-300/30 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-emerald-300/25 blur-3xl pointer-events-none" />
 
-      {/* Floating orbs */}
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
-
-      {/* Left panel — 3D scene */}
-      <div className="hidden lg:flex flex-1 relative items-center justify-center p-12">
-        <Suspense fallback={null}>
-          <ThreeScene className="absolute inset-0" />
-        </Suspense>
-
-        {/* Overlay text */}
-        <div className="relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-            className="glass rounded-3xl p-10 max-w-sm"
-          >
-            <div className="text-5xl mb-4">💸</div>
-            <h2 className="text-3xl font-display font-bold text-indigo-900 mb-3">
-              Smart Finance <br />at Your Fingertips
-            </h2>
-            <p className="text-indigo-500 text-sm leading-relaxed">
-              Track expenses, manage loans, sync with Google Sheets, and get automated reminders — all in one place.
-            </p>
-
-            <div className="mt-6 space-y-2">
-              {[
-                { icon: '📊', text: 'Google Sheets Auto-Sync' },
-                { icon: '📧', text: 'Automated Email Reminders' },
-                { icon: '🔔', text: 'Loan Due Date Alerts' },
-              ].map(({ icon, text }) => (
-                <div key={text} className="flex items-center gap-3 text-sm text-indigo-600">
-                  <span>{icon}</span>
-                  <span className="font-medium">{text}</span>
-                </div>
-              ))}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-xl"
+      >
+        <div className="glass rounded-[32px] border border-white/70 shadow-glass p-8 md:p-10">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-24 h-14 rounded-[28px] bg-white/10 shadow-glow flex items-center justify-center overflow-hidden">
+              <img src="/logo.png" alt="Smart Spend" className="w-full h-full object-contain" />
             </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Right panel — Login form */}
-      <div className="w-full lg:w-[480px] flex items-center justify-center p-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-md"
-        >
-          {/* Logo */}
-          <div className="flex items-center gap-3 mb-8">
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', damping: 15, stiffness: 200, delay: 0.2 }}
-              className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow"
-            >
-              <span className="text-2xl">💸</span>
-            </motion.div>
             <div>
-              <h1 className="text-xl font-display font-bold text-indigo-900">ExpenseTracker Pro</h1>
-              <p className="text-xs text-indigo-400">Real-time financial intelligence</p>
+              <h1 className="text-xl md:text-2xl font-display font-bold text-slate-900">Smart Spend</h1>
+              <p className="text-sm text-slate-500 mt-1">Real-time financial intelligence</p>
             </div>
           </div>
 
-          {/* Card */}
-          <div className="glass rounded-3xl p-8 shadow-glass">
-            <div className="mb-6">
-              <h2 className="text-2xl font-display font-bold text-indigo-900">Welcome back</h2>
-              <p className="text-sm text-indigo-400 mt-1">Sign in to manage your finances</p>
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900">Welcome back</h2>
+            <p className="text-sm text-slate-500 mt-3">Sign in to manage your finances</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.16em]">EMAIL</label>
+              <div className={`relative transition-all duration-200 ${focusedField === 'email' ? 'scale-[1.01]' : ''}`}>
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField(null)}
+                  placeholder="admin@expensetracker.com"
+                  className="input-glass w-full pl-12 pr-4 py-4 text-sm"
+                  required
+                />
+              </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Email */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">Email</label>
-                <div className={`relative transition-all duration-200 ${focusedField === 'email' ? 'scale-[1.01]' : ''}`}>
-                  <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-300" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="you@example.com"
-                    className="input-glass w-full pl-11 pr-4 py-3.5 text-sm"
-                    required
-                  />
-                </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.16em]">PASSWORD</label>
+              <div className={`relative transition-all duration-200 ${focusedField === 'password' ? 'scale-[1.01]' : ''}`}>
+                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                <input
+                  type={showPass ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setFocusedField('password')}
+                  onBlur={() => setFocusedField(null)}
+                  placeholder="Admin@123"
+                  className="input-glass w-full pl-12 pr-12 py-4 text-sm"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
+            </div>
 
-              {/* Password */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">Password</label>
-                <div className={`relative transition-all duration-200 ${focusedField === 'password' ? 'scale-[1.01]' : ''}`}>
-                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-300" />
-                  <input
-                    type={showPass ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onFocus={() => setFocusedField('password')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="••••••••"
-                    className="input-glass w-full pl-11 pr-12 py-3.5 text-sm"
-                    required
+            <motion.button
+              type="submit"
+              disabled={loading}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn-primary w-full py-4 flex items-center justify-center gap-3 text-sm font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPass(!showPass)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-300 hover:text-indigo-600"
-                  >
-                    {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <Zap size={16} />
+                  <span>Sign In</span>
+                  <ChevronRight size={14} />
+                </>
+              )}
+            </motion.button>
+          </form>
 
-              {/* Submit */}
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-xs text-slate-400 font-semibold tracking-[0.2em]">DEMO ACCOUNTS</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+
+          <div className="space-y-3">
+            {DEFAULT_CREDENTIALS.map((cred) => (
               <motion.button
-                type="submit"
-                disabled={loading}
+                key={cred.email}
+                onClick={() => fillCredentials(cred)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="btn-primary w-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center gap-3 p-4 rounded-3xl bg-white/80 border border-slate-200 hover:border-indigo-100 transition-all text-left"
               >
-                {loading ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                      className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                    />
-                    <span>Signing in...</span>
-                  </>
-                ) : (
-                  <>
-                    <Zap size={16} />
-                    <span>Sign In</span>
-                    <ChevronRight size={14} />
-                  </>
-                )}
+                <span className="text-xl">{cred.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-slate-900">{cred.name}</p>
+                  <p className="text-xs text-slate-500 truncate">{cred.email}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] uppercase tracking-[0.2em] font-semibold rounded-full px-2.5 py-1 ${cred.role === 'admin' ? 'bg-violet-100 text-violet-600' : 'bg-emerald-100 text-emerald-600'}`}>
+                    {cred.role}
+                  </span>
+                  <ChevronRight size={12} className="text-slate-300" />
+                </div>
               </motion.button>
-            </form>
-
-            {/* Divider */}
-            <div className="flex items-center gap-3 my-5">
-              <div className="flex-1 h-px bg-indigo-100" />
-              <span className="text-xs text-indigo-300 font-medium">DEMO ACCOUNTS</span>
-              <div className="flex-1 h-px bg-indigo-100" />
-            </div>
-
-            {/* Default users */}
-            <div className="space-y-2">
-              {DEFAULT_CREDENTIALS.map((cred) => (
-                <motion.button
-                  key={cred.email}
-                  onClick={() => fillCredentials(cred)}
-                  whileHover={{ scale: 1.02, x: 3 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center gap-3 p-3 rounded-2xl bg-indigo-50/60 hover:bg-indigo-50 border border-indigo-100 hover:border-indigo-200 transition-all text-left group"
-                >
-                  <span className="text-xl">{cred.emoji}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-indigo-800">{cred.name}</p>
-                    <p className="text-xs text-indigo-400 truncate">{cred.email}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`chip text-[10px] ${cred.role === 'admin' ? 'bg-violet-100 text-violet-600' : 'chip-normal'}`}>
-                      {cred.role}
-                    </span>
-                    <ChevronRight size={12} className="text-indigo-300 group-hover:text-indigo-500 transition-colors" />
-                  </div>
-                </motion.button>
-              ))}
-            </div>
+            ))}
           </div>
+        </div>
 
-          {/* Footer note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-center text-xs text-indigo-400 mt-4 flex items-center justify-center gap-1.5"
-          >
-            <Shield size={12} />
-            Secured with JWT authentication
-          </motion.p>
-        </motion.div>
-      </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="text-center text-xs text-slate-400 mt-5 flex items-center justify-center gap-1.5"
+        >
+          <Shield size={12} />
+          Secured with JWT authentication
+        </motion.p>
+      </motion.div>
     </div>
   );
 };
