@@ -109,15 +109,15 @@ const sendLoanReminder = async ({ to, borrowerName, lenderName, amount, dueDate,
       </div>
       <div class="details">
         <div class="detail-row">
-          <span class="detail-label">Lender</span>
+          <span class="detail-label">Lender </span>
           <span class="detail-value">${lenderName}</span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Purpose</span>
+          <span class="detail-label">Purpose </span>
           <span class="detail-value">${reason}</span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Due Date</span>
+          <span class="detail-label">Due Date </span>
           <span class="detail-value">${formatDate(dueDate)}</span>
         </div>
       </div>
